@@ -13,6 +13,44 @@ from logging import INFO
 
 from ops.publisher import Publisher
 from ops.consumers import Metrics
+from ops.repository import Models
+
+
+from ops.model import Model
+from ops.repository import Models
+from ops.services import train, test
+
+
+def run_experiment(model: Model, repository: Models, publisher: Publisher, dataloaders: dict[str, DataLoader], device: str):
+    logger = getLogger(__name__)
+    running = True
+    try:
+        logger.log(INFO, 'Restoring model')
+        repository.restore(model)
+
+        while running:
+            try:
+                train(model, dataloaders['train'], publisher, device)
+                test(model, dataloaders['test'], publisher, device)
+                logger.log(INFO, f'Epoch {model.epochs} complete')
+
+                if model.epochs % 5 == 0:
+                    logger.log(INFO, 'Saving model')
+                    repository.save(model)
+                model.epochs += 1
+
+            except Exception:
+                model = repository.create(model.name, model.network, model.criterion, model.optimizer, device)
+                repository.restore(model)
+                pass
+
+    except KeyboardInterrupt:
+        logger.log(INFO, 'Training stopped')
+        repository.save(model)
+                
+    finally:
+        publisher.stop()
+    
 
 basicConfig(level=INFO)
 logger = getLogger('ops')
@@ -25,11 +63,7 @@ optimizer = Adam(network.parameters(), lr=0.001)
 publisher = Publisher()
 publisher.subscribe('train-results', Metrics(device='cpu'))
 publisher.subscribe('test-results', Metrics(device='cpu'))
-
-from ops.repository import Models
-
 models = Models('weights', device, publisher)
-
 model = models.create('mlp', network, criterion, optimizer)
 
 datasets = {
@@ -42,28 +76,5 @@ dataloaders = {
     'test': DataLoader(datasets['test'], batch_size=64, shuffle=False, pin_memory=True, pin_memory_device=device, num_workers=4)
 }
 
-from ops.services import train, test
 
-for epoch in range(1, 5):
-    train(epoch, model, dataloaders['train'], publisher, device)
-    test(epoch, model, dataloaders['test'], publisher, device)
-    logger.log(INFO, f'Epoch {model.epochs} complete')
-    model.epochs += 1
-
-logger.log(INFO, 'Training and testing complete')
-logger.log(INFO, 'Saving model')
-models.save(model)
-
-
-model = models.create('mlp', network, criterion, optimizer)
-models.restore(model)
-
-for epoch in range(10, 14):
-    train(epoch, model, dataloaders['train'], publisher, device)
-    test(epoch, model, dataloaders['test'], publisher, device)
-    logger.log(INFO, f'Epoch {model.epochs} complete')
-    model.epochs += 1
-
-logger.log(INFO, 'Training and testing complete')
-
-publisher.stop()
+run_experiment(model, models, publisher, dataloaders, device)

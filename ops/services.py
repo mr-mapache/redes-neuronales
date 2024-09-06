@@ -12,7 +12,7 @@ class Result:
 from logging import getLogger
 logger = getLogger(__name__)
 
-def train(epoch: int, model: Model, data: Data, publisher: Publisher, device: str):
+def train(model: Model, data: Data, publisher: Publisher, device: str):
     model.train()
     for input, target in data:
         input, target = input.to(device), target.to(device)
@@ -21,7 +21,7 @@ def train(epoch: int, model: Model, data: Data, publisher: Publisher, device: st
         
     publisher.publish('train-results', model.epochs)
         
-def test(epoch: int, model: Model, data: Data, publisher: Publisher, device: str):
+def test(model: Model, data: Data, publisher: Publisher, device: str):
     model.eval()
     for input, target in data:
         input, target = input.to(device), target.to(device)

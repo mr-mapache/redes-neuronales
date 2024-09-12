@@ -8,7 +8,7 @@ from typing import Iterator
 from typing import Optional
 from typing import TypedDict
 from enum import StrEnum
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 class Tensor(Protocol):
     def to(self, device: str) -> Any: ...
@@ -47,14 +47,13 @@ class Callback(Protocol):
 class Loader(Protocol):
     def __iter__(self) -> Iterator[Tuple[Tensor, Tensor]]: ...
 
-
+@dataclass(slots=True, kw_only=True)
 class Metric(ABC):
-    def __init__(self, name: str, history: dict[Phase, list[Any]] | None = None):
-        self.name = name
-        self.history = history if history else {
-            Phase.TRAIN: [],
-            Phase.EVALUATION: []
-        }
+    history: dict[Phase, list] | None = field(default_factory=lambda: {
+        Phase.TRAIN: [],
+        Phase.EVALUATION: []
+    })
+    name: str
 
     @abstractmethod
     def __call__(self, batch: int, *args: Any) -> Any: ...
@@ -66,11 +65,11 @@ class State:
     criterion: str
     batch_size: int
     epochs: int
-        
+
+@dataclass
 class Experiment:
-    def __init__(self, id: UUID, name: str):
-        self.id = id
-        self.name = name
+    id: UUID
+    name: str
 
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, Experiment):

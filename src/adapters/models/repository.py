@@ -6,7 +6,8 @@ from typing import Optional, Callable
 from logging import getLogger
 
 from torch import save, load
-from pymongo.database import Database
+from torch.nn import Module
+from torch.optim import Optimizer
 
 from src.domain.models import Experiment
 from src.domain.ports import Models as Repository
@@ -17,6 +18,23 @@ from src.domain.models import State
 logger = getLogger(__name__)
 
 class Models(Repository):
+    builder = Builder()
+
+    @override
+    @classmethod
+    def register_nn(cls, nn_name: str, nn_factory: Callable[[], Module]):
+        cls.builder.register_nn(nn_name, nn_factory)
+
+    @override
+    @classmethod
+    def register_criterion(cls, criterion_name: str, criterion_factory: Callable[[], Callable]):
+        cls.builder.register_criterion(criterion_name, criterion_factory)
+
+    @override
+    @classmethod
+    def register_optimizer(cls, optimizer_name: str, optimizer_factory: Callable[[Module], Optimizer]):
+        cls.builder.register_optimizer(optimizer_name, optimizer_factory)
+
     def __init__(self, directory: str, factory: Callable = create_model, device: str = 'cpu'):
         self.directory = directory
         self.factory = factory

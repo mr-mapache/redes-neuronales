@@ -5,17 +5,28 @@ from logging import getLogger
 
 from torch.utils.data import DataLoader, Dataset
 from torchvision.datasets import MNIST, FashionMNIST
-from torchvision.transforms import ToTensor
+from torchvision.transforms import ToTensor, Compose, Normalize
 
 from src.domain.ports import Loaders as Repository
 from src.domain.models import Loader
 
 logger = getLogger(__name__)
 
+class SimpleMnist(Dataset):
+    def __init__(self, train: bool) -> None:
+        self.transform = Compose([ToTensor(), Normalize((0.1307,), (0.3081,))])
+        self.dataset = MNIST(root='./data/datasets', train=train, download=True, transform=self.transform)
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, idx):
+        return self.dataset[idx] 
+
 class Datasets:
-    registry: dict[str, Callable[[bool, Callable], Dataset]] = {
-        'mnist': lambda train, transform: MNIST(root='./data/datasets', train=train, download=True, transform=transform),
-        'fashion-mnist': lambda train, transform: FashionMNIST(root='./data/datasets', train=train, download=True, transform=transform)
+    registry: dict[str, Callable[[bool], Dataset]] = {
+        'mnist': lambda train: SimpleMnist(train=train),
+        'fashion-mnist': lambda train: FashionMNIST(train=train)
     }
 
     @classmethod
@@ -23,11 +34,11 @@ class Datasets:
         cls.registry[name] = factory
 
     @classmethod
-    def get(cls, dataset: str, train: bool, transform: Callable) -> Optional[Dataset]:
+    def get(cls, dataset: str, train: bool) -> Optional[Dataset]:
         factory = cls.registry.get(dataset)
         if not factory:
             raise ValueError(f'Unknown dataset: {dataset}')
-        return factory(train, transform)
+        return factory(train)
     
 
 class Loaders(Repository):
@@ -41,9 +52,8 @@ class Loaders(Repository):
         self.workers = workers or 0
 
     @override
-    def get(self, dataset: str, train: bool, batch_size: int, transform: Callable | None = None) -> Loader:
-        transform = transform or ToTensor()
-        dataset = Datasets.get(dataset, train, transform)
+    def get(self, dataset: str, train: bool, batch_size: int) -> Loader:
+        dataset = Datasets.get(dataset, train)
         if self.device == 'cpu':
             return DataLoader(dataset, batch_size=batch_size, shuffle=train)
         else:

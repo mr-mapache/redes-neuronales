@@ -1,21 +1,19 @@
 from typing import Literal
-from dataclasses import dataclass, field
+from pydantic import BaseModel
+from pydantic import Field
 
-class Command:
+class Command(BaseModel):
     pass
 
-@dataclass(kw_only=True)
-class TrainOverEpochs(Command):
-    epochs: int
-    experiment: str
-    dataset: str
-    transform: str | None = field(default=None)
-    task: Literal['classification'] = field(default='classification')
-
-@dataclass(kw_only=True)
 class CreateExperiment(Command):
-    name: str
-    nn: str
-    criterion: str
-    optimizer: str
-    batch_size: int
+    name: str = Field(...)
+    nn: str = Field(...)
+    criterion: str = Field(...)
+    optimizer: str = Field(...)
+    batch_size: int = Field(...)
+
+class TrainOverEpochs(Command):
+    epochs: int = Field(...)
+    experiment: str = Field(...)
+    dataset: str = Field(...)
+    task: Literal['classification'] = Field(default='classification')

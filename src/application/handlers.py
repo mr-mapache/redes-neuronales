@@ -46,8 +46,8 @@ def handle_training_over_epochs(command: TrainOverEpochs, experiments: Experimen
     logger.info(f'Experiment {command.experiment} recovered successfully')
     logger.info(f'Starting training from epoch {state.epochs}')
     
-    train_loader = experiments.loaders.get(command.dataset, True, state.batch_size, transform=command.transform)
-    test_loader = experiments.loaders.get(command.dataset, False, state.batch_size, transform=command.transform)
+    train_loader = experiments.loaders.get(command.dataset, True, state.batch_size)
+    test_loader = experiments.loaders.get(command.dataset, False, state.batch_size)
 
     callback = get_callback(command.task, metrics)
     if not callback:

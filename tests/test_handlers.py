@@ -13,21 +13,9 @@ from src.application.handlers import (
     handle_training_over_epochs
 )
 
-from torchvision.transforms import Compose, ToTensor, Normalize
-from torch.nn import Flatten
-
-
 States.register('mlp-cls-784-128-10-0.5-relu', 'classifier')
 States.register('cross-entropy', 'criterion')
 States.register('adam-0.001', 'optimizer')
-
-
-@pytest.fixture
-def transform() -> Compose:
-    return Compose([
-        ToTensor(),
-        Normalize((0.5,), (0.5,))
-    ])
 
 @pytest.fixture
 def settings(mongo_database, directory) -> Settings:
@@ -53,11 +41,10 @@ def create_experiment() -> Command:
     )
 
 @pytest.fixture
-def train_over_epochs(transform) -> Command:
+def train_over_epochs() -> Command:
     return TrainOverEpochs(
         experiment='test',
         dataset='mnist',
-        transform=transform,
         task='classification',
         epochs=1
     )
@@ -100,4 +87,4 @@ def test_handle_training_over_epochs(
     assert model is not None
     assert model.nn is not None
     assert model.criterion is not None
-    assert model.optimizer is not None    
+    assert model.optimizer is not None 

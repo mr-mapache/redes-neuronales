@@ -14,31 +14,7 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
-
-def handle_exception(exception: Exception):
-    if isinstance(exception, ExperimentAlreadyExists):
-        logger.exception('Experiment already exists')
-        logger.info('Moving on...')
-    else:
-        raise exception
-
-class MessageBus:   
-
-    @classmethod
-    def register(cls, part: Literal['nn', 'criterion', 'optimizer'], name: str, factory: Callable[[], Callable[[None], Module | Optimizer]]):
-        match part:
-            case 'nn':
-                Builder.register_nn(name, factory)
-                States.register(name, 'nn')
-            case 'criterion':
-                Builder.register_criterion(name, factory)
-                States.register(name, 'criterion')  
-            case 'optimizer':
-                Builder.register_optimizer(name, factory)
-                States.register(name, 'optimizer')
-            case _:
-                raise ValueError(f'Unknown model part: {part}')
-            
+class MessageBus:               
 
     def __init__(self, experiments: Experiments):
         self.experiments = experiments
@@ -49,9 +25,4 @@ class MessageBus:
         
     def handle(self, command: Command):
         handler = self.handlers.get(type(command), None)
-        try:
-            handler(command)
-        except Exception as exception:
-            handle_exception(exception)
-            
-
+        handler(command)

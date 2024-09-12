@@ -25,6 +25,7 @@ class Models(ABC):
     
 
 class Metrics(ABC):
+    register: Callable
     
     @abstractmethod
     def create(self, name: str, history: dict | None = None) -> Metric: ...
@@ -61,7 +62,7 @@ class States(ABC):
 class Loaders(ABC):
 
     @abstractmethod
-    def get(self, dataset: str, batch_size: int, train: bool, transform: Callable | None = None) -> Loader: ...
+    def get(self, dataset: str, batch_size: int, train: bool) -> Loader: ...
 
 class Experiments(ABC):
     device: str

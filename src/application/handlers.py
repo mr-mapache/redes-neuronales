@@ -17,7 +17,7 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
-def handle_create_experiment(command: CreateExperiment, experiments: Experiments):
+def handle_create_experiment(command: CreateExperiment, experiments: Experiments) -> Experiment:
     experiment = experiments.get_by_name(command.name)
     if experiment:
         raise exceptions.ExperimentAlreadyExists(f'Experiment {command.name} already exists')
@@ -27,6 +27,7 @@ def handle_create_experiment(command: CreateExperiment, experiments: Experiments
         raise exceptions.ModelNotSupported(f'Model not supported')
     experiments.add(experiment)
     experiments.states.add(state, experiment)
+    return experiment
 
 
 def handle_training_over_epochs(command: TrainOverEpochs, experiments: Experiments):

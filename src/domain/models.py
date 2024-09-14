@@ -47,13 +47,13 @@ class Callback(Protocol):
 class Loader(Protocol):
     def __iter__(self) -> Iterator[Tuple[Tensor, Tensor]]: ...
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(slots=True)
 class Metric(ABC):
     history: dict[Phase, list] | None = field(default_factory=lambda: {
         Phase.TRAIN: [],
         Phase.EVALUATION: []
     })
-    name: str
+    name: str = field(default='metric')
 
     @abstractmethod
     def __call__(self, batch: int, *args: Any) -> Any: ...

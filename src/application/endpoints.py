@@ -1,16 +1,19 @@
+from uuid import UUID
 from logging import getLogger
+from typing import Generator
 
 from fastapi import FastAPI
 from fastapi import HTTPException, Depends, status
 from fastapi import Request
-from fastapi.responses import Response
 from fastapi import Query
+from fastapi.responses import Response
 
 from src.domain.models import Experiment, Metric
 from src.domain.ports import Experiments
-from src.application.bus import MessageBus
-from src.application.commands import CreateExperiment
+from src.application.commands import CreateExperiment, TrainOverEpochs
 from src.application.exceptions import ExperimentAlreadyExists, ExperimentNotFound, ModelNotSupported
+from src.application.handlers import handle_create_experiment, handle_training_over_epochs
+from src.application.messagebus import Messagebus
 
 api = FastAPI()
 logger = getLogger(__name__)
@@ -18,11 +21,13 @@ logger = getLogger(__name__)
 def repository() -> Experiments:
     raise NotImplementedError
 
+def bus() -> Messagebus:
+    raise NotImplementedError
+
 @api.post('/experiments/')
 def create_experiment(command: CreateExperiment, experiments: Experiments = Depends(repository)):
-    messagebus = MessageBus(experiments)
-    messagebus.handle(command)
-    return Response(status_code=status.HTTP_201_CREATED)
+    experiment = handle_create_experiment(command, experiments)
+    return experiment
 
 @api.exception_handler(ExperimentAlreadyExists)
 def handle_experiment_already_exists(request: Request, exception: Exception):
@@ -54,9 +59,14 @@ def get_experiment_by_name(name: str = Query(...), experiments: Experiments = De
     return experiment
 
 @api.get('/experiments/{id}/metrics/')
-def get_experiment_metrics(id: str, experiments: Experiments = Depends(repository)) -> dict[str, Metric]:
+def get_experiment_metrics(id: UUID, experiments: Experiments = Depends(repository)) -> dict[str, Metric]:
     experiment = experiments.get(id)
     if not experiment:
         raise ExperimentNotFound(f'Experiment {id} not found')
     metrics = experiments.metrics.pull(experiment)
     return metrics
+
+@api.post('/experiments/train/')
+def train_over_epochs(command: TrainOverEpochs, experiments: Experiments = Depends(repository)):
+    handle_training_over_epochs(command, experiments)
+    return Response(status_code=status.HTTP_202_ACCEPTED)

@@ -1,4 +1,6 @@
 import pytest
+from typing import Generator
+from queue import Queue
 
 from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
@@ -7,7 +9,8 @@ from fastapi.testclient import TestClient
 
 from models import MLPCLS
 from src.adapters.experiments import Experiments, Settings
-from src.application.endpoints import api, repository
+from src.application.endpoints import api, repository, bus
+from src.application.messagebus import Messagebus
 from src.adapters.models.repository import Models
 from src.adapters.states import States
 
@@ -56,7 +59,7 @@ def test_experiments(client: TestClient):
         'batch_size': 32
     })
 
-    assert response.status_code == 201
+    assert response.status_code == 200
     
     response = client.post('/experiments/', json={
         'name': 'test',
@@ -77,7 +80,7 @@ def test_experiments(client: TestClient):
         'batch_size': 64
     })
 
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     response = client.get('/experiments/')
 

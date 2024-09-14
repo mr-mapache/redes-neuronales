@@ -4,7 +4,7 @@ from typing import Optional
 from logging import getLogger
 
 from torch.utils.data import DataLoader, Dataset
-from torchvision.datasets import MNIST, FashionMNIST
+from torchvision.datasets import MNIST, FashionMNIST, CIFAR10
 from torchvision.transforms import ToTensor, Compose, Normalize
 
 from src.domain.ports import Loaders as Repository
@@ -14,14 +14,37 @@ logger = getLogger(__name__)
 
 class SimpleMnist(Dataset):
     def __init__(self, train: bool) -> None:
+        self.transform = ToTensor()
+        self.dataset = MNIST(root='./data/datasets', train=train, download=True, transform=self.transform)
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, index):
+        return self.dataset[index]
+
+class NormalizedMnist(Dataset):
+    def __init__(self, train: bool) -> None:
         self.transform = Compose([ToTensor(), Normalize((0.1307,), (0.3081,))])
         self.dataset = MNIST(root='./data/datasets', train=train, download=True, transform=self.transform)
 
     def __len__(self):
         return len(self.dataset)
 
-    def __getitem__(self, idx):
-        return self.dataset[idx] 
+    def __getitem__(self, index):
+        return self.dataset[index]
+
+
+class Cifar10(Dataset):
+    def __init__(self, train: bool) -> None:
+        self.transform = ToTensor()
+        self.dataset = CIFAR10(root='./data/datasets', train=train, download=True, transform=self.transform)
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, index):
+        return self.dataset[index] 
 
 class Datasets:
     registry: dict[str, Callable[[bool], Dataset]] = {

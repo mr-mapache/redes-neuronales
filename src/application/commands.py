@@ -13,7 +13,7 @@ class CreateExperiment(Command):
     batch_size: int = Field(...)
 
 class TrainOverEpochs(Command):
-    epochs: int = Field(...)
     experiment: str = Field(...)
+    epochs: int = Field(...)
     dataset: str = Field(...)
     task: Literal['classification'] = Field(default='classification')

@@ -22,6 +22,18 @@ class SimpleMnist(Dataset):
 
     def __getitem__(self, index):
         return self.dataset[index]
+    
+class SimpleFashionMnist(Dataset):
+    def __init__(self, train: bool) -> None:
+        self.transform = ToTensor()
+        self.dataset = FashionMNIST(root='./data/datasets', train=train, download=True, transform=self.transform)
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, index):
+        return self.dataset[index]
+
 
 class NormalizedMnist(Dataset):
     def __init__(self, train: bool) -> None:
@@ -33,7 +45,6 @@ class NormalizedMnist(Dataset):
 
     def __getitem__(self, index):
         return self.dataset[index]
-
 
 class Cifar10(Dataset):
     def __init__(self, train: bool) -> None:
@@ -49,7 +60,7 @@ class Cifar10(Dataset):
 class Datasets:
     registry: dict[str, Callable[[bool], Dataset]] = {
         'mnist': lambda train: SimpleMnist(train=train),
-        'fashion-mnist': lambda train: FashionMNIST(train=train)
+        'fashion-mnist': lambda train: SimpleFashionMnist(train=train)
     }
 
     @classmethod

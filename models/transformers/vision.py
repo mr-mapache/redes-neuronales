@@ -29,14 +29,3 @@ class CLSToken(Module):
         batch_size = input.shape[0]
         token = self.token.expand(batch_size, -1, -1)
         return cat([token, input], dim=1)
-
-class LearnablePositionalEncoding(Module):
-    def __init__(self, model_dimension: int, sequence_lenght_limit: int = 196):
-        super().__init__()
-        self.sequence_lenght_limit = sequence_lenght_limit
-        self.position_embeddings = Parameter(randn(1, sequence_lenght_limit + 1, model_dimension))
-
-    def forward(self, input: Tensor) -> Tensor:
-        assert input.size(1) <= self.sequence_lenght_limit + 1, 'input sequence is too long'
-        input = input + self.position_embeddings[:, :input.size(1)]
-        return input

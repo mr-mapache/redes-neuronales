@@ -1,10 +1,12 @@
 import math
 from typing import Optional
 from torch import Tensor
+from torch import randn
 from torch import exp, arange, outer, ones_like
 from torch import view_as_complex, view_as_real, polar
 from torch.nn import Module
 from torch.nn import Linear
+from torch.nn import Parameter
 from torch.nn.functional import scaled_dot_product_attention
 
 def split_heads(sequence: Tensor, number_of_heads: int) -> Tensor:
@@ -35,7 +37,26 @@ def apply_rotatory_embeddings(sequence: Tensor, rotatory_embeddings: Tensor) -> 
     sequence = view_as_real(sequence)
     return sequence.view(batch_size, number_of_heads, sequence_lenght, heads_dimension)
 
-class MultiheadAttention(Module):
+
+class Encoding(Module):
+    ...
+
+class Learnable(Encoding):
+    def __init__(self, model_dimension: int, sequence_lenght_limit: int = 196):
+        super().__init__()
+        self.sequence_lenght_limit = sequence_lenght_limit
+        self.position_embeddings = Parameter(randn(1, sequence_lenght_limit + 1, model_dimension))
+
+    def forward(self, input: Tensor) -> Tensor:
+        assert input.size(1) <= self.sequence_lenght_limit + 1, 'input sequence is too long'
+        input = input + self.position_embeddings[:, :input.size(1)]
+        return input
+    
+
+class Attention(Module):
+    ...
+
+class MultiheadAttention(Attention):
     def __init__(self, model_dimension: int, number_of_heads: int, number_of_kv_heads: int):
         super().__init__()
         self.model_dimension = model_dimension
@@ -56,7 +77,7 @@ class MultiheadAttention(Module):
         attention = concat_heads(attention)
         return self.output_projector(attention)
 
-class RopeMultiheadAttention(Module):
+class RopeMultiheadAttention(Attention):
     def __init__(self, model_dimension: int, number_of_heads: int, number_of_kv_heads: int):
         super().__init__()
         self.model_dimension = model_dimension

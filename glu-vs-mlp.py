@@ -15,24 +15,24 @@ basicConfig(level=INFO)
 logger = getLogger(__name__)
 
 # MLP's
-register('nn','classiffier-mlp-784-256-10-0.0-relu', lambda: MLPCLS(784, 256, 10, 0.0))
-register('nn','classiffier-mlp-784-512-10-0.0-relu', lambda: MLPCLS(784, 512, 10, 0.0))
+register('nn','classiffier-mlp-784-256-10-0.0-silu', lambda: MLPCLS(784, 256, 10, 0.0, 'silu'))
+register('nn','classiffier-mlp-784-512-10-0.0-silu', lambda: MLPCLS(784, 512, 10, 0.0, 'silu'))
 
-register('nn','classiffier-mlp-784-256-10-0.2-relu', lambda: MLPCLS(784, 256, 10, 0.2))
-register('nn','classiffier-mlp-784-512-10-0.2-relu', lambda: MLPCLS(784, 512, 10, 0.2))
+register('nn','classiffier-mlp-784-256-10-0.2-silu', lambda: MLPCLS(784, 256, 10, 0.2, 'silu'))
+register('nn','classiffier-mlp-784-512-10-0.2-silu', lambda: MLPCLS(784, 512, 10, 0.2, 'silu'))
 
-register('nn','classiffier-mlp-784-256-10-0.5-relu', lambda: MLPCLS(784, 256, 10, 0.5))
-register('nn','classiffier-mlp-784-512-10-0.5-relu', lambda: MLPCLS(784, 512, 10, 0.5))
+register('nn','classiffier-mlp-784-256-10-0.5-silu', lambda: MLPCLS(784, 256, 10, 0.5, 'silu'))
+register('nn','classiffier-mlp-784-512-10-0.5-silu', lambda: MLPCLS(784, 512, 10, 0.5, 'silu'))
 
 # GLU's
-register('nn','classiffier-glu-784-256-10-0.0-relu', lambda: GLUCLS(784, 256, 10, 0.0))
-register('nn','classiffier-glu-784-512-10-0.0-relu', lambda: GLUCLS(784, 512, 10, 0.0))
+register('nn','classiffier-glu-784-256-10-0.0-silu', lambda: GLUCLS(784, 256, 10, 0.0, 'silu'))
+register('nn','classiffier-glu-784-512-10-0.0-silu', lambda: GLUCLS(784, 512, 10, 0.0, 'silu'))
 
-register('nn','classiffier-glu-784-256-10-0.2-relu', lambda: GLUCLS(784, 256, 10, 0.2))
-register('nn','classiffier-glu-784-512-10-0.2-relu', lambda: GLUCLS(784, 512, 10, 0.2))
+register('nn','classiffier-glu-784-256-10-0.2-silu', lambda: GLUCLS(784, 256, 10, 0.2, 'silu'))
+register('nn','classiffier-glu-784-512-10-0.2-silu', lambda: GLUCLS(784, 512, 10, 0.2, 'silu'))
 
-register('nn','classiffier-glu-784-256-10-0.5-relu', lambda: GLUCLS(784, 256, 10, 0.5))
-register('nn','classiffier-glu-784-512-10-0.5-relu', lambda: GLUCLS(784, 512, 10, 0.5))
+register('nn','classiffier-glu-784-256-10-0.5-silu', lambda: GLUCLS(784, 256, 10, 0.5, 'silu'))
+register('nn','classiffier-glu-784-512-10-0.5-silu', lambda: GLUCLS(784, 512, 10, 0.5, 'silu'))
 
 # Cross-Entropy Loss and Adam Optimizer
 register('criterion', 'cross-entropy', lambda: CrossEntropyLoss())
@@ -45,22 +45,22 @@ directory = 'data/weights'
 settings = Settings(device='cuda', workers=4, database=database, directory=directory)
 experiments = Experiments(settings)
 
-namemaspace = '001-fashion-mnist-bz=256'
+namemaspace = '003-fashion-mnist-bz=256'
 
 commands = [
-    CreateExperiment(name=f'{namemaspace}-mlp-256-0.0-relu', nn='classiffier-mlp-784-256-10-0.0-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-mlp-256-0.2-relu', nn='classiffier-mlp-784-256-10-0.2-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-mlp-256-0.5-relu', nn='classiffier-mlp-784-256-10-0.5-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-mlp-512-0.0-relu', nn='classiffier-mlp-784-512-10-0.0-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-mlp-512-0.2-relu', nn='classiffier-mlp-784-512-10-0.2-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-mlp-512-0.5-relu', nn='classiffier-mlp-784-512-10-0.5-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-mlp-256-0.0-silu', nn='classiffier-mlp-784-256-10-0.0-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-mlp-256-0.2-silu', nn='classiffier-mlp-784-256-10-0.2-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-mlp-256-0.5-silu', nn='classiffier-mlp-784-256-10-0.5-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-mlp-512-0.0-silu', nn='classiffier-mlp-784-512-10-0.0-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-mlp-512-0.2-silu', nn='classiffier-mlp-784-512-10-0.2-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-mlp-512-0.5-silu', nn='classiffier-mlp-784-512-10-0.5-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
 
-    CreateExperiment(name=f'{namemaspace}-glu-256-0.0-relu', nn='classiffier-glu-784-256-10-0.0-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-glu-256-0.2-relu', nn='classiffier-glu-784-256-10-0.2-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-glu-256-0.5-relu', nn='classiffier-glu-784-256-10-0.5-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-glu-512-0.0-relu', nn='classiffier-glu-784-512-10-0.0-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
-    CreateExperiment(name=f'{namemaspace}-glu-512-0.2-relu', nn='classiffier-glu-784-512-10-0.2-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256), 
-    CreateExperiment(name=f'{namemaspace}-glu-512-0.5-relu', nn='classiffier-glu-784-512-10-0.5-relu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-glu-256-0.0-silu', nn='classiffier-glu-784-256-10-0.0-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-glu-256-0.2-silu', nn='classiffier-glu-784-256-10-0.2-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-glu-256-0.5-silu', nn='classiffier-glu-784-256-10-0.5-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-glu-512-0.0-silu', nn='classiffier-glu-784-512-10-0.0-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
+    CreateExperiment(name=f'{namemaspace}-glu-512-0.2-silu', nn='classiffier-glu-784-512-10-0.2-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256), 
+    CreateExperiment(name=f'{namemaspace}-glu-512-0.5-silu', nn='classiffier-glu-784-512-10-0.5-silu', criterion='cross-entropy', optimizer='adam-0.001', batch_size=256),
 ]
 
 try:
@@ -70,19 +70,19 @@ except ExperimentAlreadyExists as e:
     logger.info(e)
 
 commands = [
-    TrainOverEpochs(experiment=f'{namemaspace}-mlp-256-0.0-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-mlp-256-0.2-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-mlp-256-0.5-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-mlp-512-0.0-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-mlp-512-0.2-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-mlp-512-0.5-relu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-mlp-256-0.0-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-mlp-256-0.2-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-mlp-256-0.5-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-mlp-512-0.0-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-mlp-512-0.2-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-mlp-512-0.5-silu', epochs=100, dataset='fashion-mnist'),
 
-    TrainOverEpochs(experiment=f'{namemaspace}-glu-256-0.0-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-glu-256-0.2-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-glu-256-0.5-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-glu-512-0.0-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-glu-512-0.2-relu', epochs=100, dataset='fashion-mnist'),
-    TrainOverEpochs(experiment=f'{namemaspace}-glu-512-0.5-relu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-glu-256-0.0-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-glu-256-0.2-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-glu-256-0.5-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-glu-512-0.0-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-glu-512-0.2-silu', epochs=100, dataset='fashion-mnist'),
+    TrainOverEpochs(experiment=f'{namemaspace}-glu-512-0.5-silu', epochs=100, dataset='fashion-mnist'),
 ]
 
 for command in commands:

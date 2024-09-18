@@ -4,6 +4,7 @@ from torch import cat, randn, flatten
 from torch.nn import Parameter
 from torch.nn import Module
 from torch.nn import Conv2d
+from torch.nn import Linear
 
 def number_of_patches(image_shape: Tuple[int, int], patch_shape: Tuple[int, int]) -> int:
     image_height, image_width = image_shape
@@ -11,7 +12,7 @@ def number_of_patches(image_shape: Tuple[int, int], patch_shape: Tuple[int, int]
     assert image_height % patch_height == 0 and image_width % patch_width == 0, 'image shape must be divisible by patch shape'
     return (image_height // patch_height) * (image_width // patch_width)
 
-class ConvolutionalPatch(Module):
+class ConvolutionalPatcher(Module):
     def __init__(self, model_dimension: int, patch_shape: Tuple[int, int], number_of_channels: int):
         super().__init__()
         self.projector = Conv2d(number_of_channels, model_dimension, kernel_size=patch_shape, stride=patch_shape)
@@ -29,3 +30,14 @@ class CLSToken(Module):
         batch_size = input.shape[0]
         token = self.token.expand(batch_size, -1, -1)
         return cat([token, input], dim=1)
+    
+class Head(Module):
+    ...
+
+class Classification(Head):
+    def __init__(self, model_dimension: int, number_of_classes: int):
+        super().__init__()
+        self.head = Linear(model_dimension, number_of_classes)
+
+    def forward(self, input: Tensor) -> Tensor:
+        return self.head(input[:, 0])

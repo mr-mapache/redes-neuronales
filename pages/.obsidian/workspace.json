@@ -1,0 +1,229 @@
+{
+  "main": {
+    "id": "5ce79611cbd0bce2",
+    "type": "split",
+    "children": [
+      {
+        "id": "928f23c861b40afe",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4928d58dfc170a92",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Espacios.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Espacios"
+            }
+          },
+          {
+            "id": "fde3411de57e6fa0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Redes neuronales.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Redes neuronales"
+            }
+          },
+          {
+            "id": "89bdded8dd87a1eb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Apendice/Geometría.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Geometría"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "971396cd7972e8f9",
+    "type": "split",
+    "children": [
+      {
+        "id": "e1eba53e16d4803e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "209322f71b0e401b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "0c992e371d919f71",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "778c6b2b9e287ebb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "ef07ceb8899ef80a",
+    "type": "split",
+    "children": [
+      {
+        "id": "0cfd326cdade984a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "08296e8d99b6a230",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Optimización.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de Optimización"
+            }
+          },
+          {
+            "id": "cdfab21ebf97f05b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Capas densas.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de Capas densas"
+            }
+          },
+          {
+            "id": "91ada98a639ba82a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "03a39cf3a84ec34c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Capas densas.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de Capas densas"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false
+    }
+  },
+  "active": "4928d58dfc170a92",
+  "lastOpenFiles": [
+    "Redes neuronales.md",
+    "Apendice/Geometría.md",
+    "Espacios.md",
+    "Entropía.md",
+    "Energía.md",
+    "Atención.md",
+    "Apendice/Probabilidad.md",
+    "Optimización.md",
+    "Introducción.md",
+    "Regularización.md",
+    "Pasted image 20250410000331.png",
+    "Pasted image 20250410000257.png",
+    "Pasted image 20250409231225.png",
+    "Apendice/Algebra.md",
+    "Apendice/Análisis funcional.md",
+    "assets/20250312142101.png",
+    "assets/20250225174334.png",
+    "assets",
+    "Apendice",
+    "Pasted image 20250402201819.png",
+    "Pasted image 20250402094245.png",
+    "trash/Capas densas.md",
+    "trash/Producto de Hadamard.md",
+    "trash",
+    "Pasted image 20250212210447.png",
+    "Pasted image 20250212210606.png",
+    "Pasted image 20250212210804.png"
+  ]
+}

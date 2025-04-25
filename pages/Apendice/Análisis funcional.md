@@ -7,7 +7,6 @@ $$
 ||\vec{x}|| = \sqrt{\langle\vec{x}, \vec{x}\rangle} \qquad \vec{x} \in \mathcal{H}
 $$
 
-
 El teorema de representación de Riesz nos dice que para cada funcional lineal continuo $f: \mathcal{H} \rightarrow \mathbb{K}$ puede existe un único vector $y \in \mathcal{H}$ tal que:
 
 $$

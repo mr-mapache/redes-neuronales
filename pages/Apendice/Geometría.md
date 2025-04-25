@@ -1,6 +1,6 @@
 ### Variedad 
 
-Una **variedad** (manifold) es una generalización del concepto de superficie en el espacio. Podemos modelar a una variedad como a un **espacio topológico** al cual podemos "cubrir" con subconjuntos del mismo**, de forma tal que, localmente, se comporten como espacios euclidianos. Este procedimiento de cubrir a un dicho espacio se denomina la **cobertura del atlas**.
+Una **variedad** (manifold) es una generalización del concepto de superficie en el espacio. Podemos modelar a una variedad como a un **espacio topológico** al cual podemos "cubrir" con subconjuntos del mismo, de forma tal que, localmente, se comporten como espacios euclidianos. Este procedimiento de cubrir a un dicho espacio se denomina la **cobertura del atlas**.
  
  Veamos esto de forma mas rigurosa. Sea $M$ un espacio topológico, podemos decir que $M$ es una variedad si cumple con las siguientes propiedades:
 

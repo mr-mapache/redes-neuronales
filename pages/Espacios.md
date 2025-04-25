@@ -3,19 +3,35 @@ Una hipótesis ampliamente aceptada para explicar el éxito del aprendizaje prof
 
 El objetivo de un modelo es, entonces, aprender tanto la estructura geométrica subyacente en los datos como la distribución de "energía" que reside sobre ella, y obtener una representación paramétrica de la variedad que describe dichos datos.
 
-Bajo este marco, definimos al **espacio ambiente** $\mathcal{X}$ como aquel espacio de alta dimensión en el que originalmente viven los datos. Geométricamente, es el espacio en el que la variedad está embebida.
+Bajo este marco, definimos al **espacio ambiente** $\mathcal{X}$ como aquel espacio de alta dimensión en el que originalmente viven los datos. Geométricamente, es el espacio en el que la variedad está embebida. Puede suponerse también que $M$ es el soporte para una distribución de energía $E: \mathcal{X} \rightarrow \mathbb{R}$. 
 
 ### Autoencoders
 
-Un **autoencoder** es un modelo que aprende un mapa de codificación $\psi: \mathcal{X}  \rightarrow U$ y un mapa de decodificación $\phi: U \rightarrow \mathcal{X}$ en donde $\mathcal{F}$ es el **espacio latente**.  Si los datos se encuentran sobre una variedad diferencial $M$, esta variedad puede aprender a reconstruirse usando que.
-
+Un **autoencoder** es un modelo que aprende un mapa de codificación $\psi: \mathcal{X} \rightarrow U$ y un mapa de decodificación $\phi: U \rightarrow \mathcal{X}$, donde $U$ representa el **espacio latente**. Si los datos se encuentran sobre una variedad diferencial $M \subset \mathcal{X}$, dicha variedad puede ser reconstruida mediante:
 $$
 M' = (\psi \circ \phi)(M)
 $$
 
-En donde $M'$ es la variedad reconstruida. Supongamos que $M$ es el soporte para una distribución de energía $E: \mathcal{X} \rightarrow \mathbb{R}$. 
+donde $M'$ es la **variedad reconstruida**.
 
-Sabemos que cada punto de $M$ existe una carta $(O, \psi)$ local tal que $O$ es un subconjunto de $M$ y $\psi: O \rightarrow U$ es el *mapa de codificación* que mapea el subconjunto $O$ en un espacio euclídeo. El mapa de decodificación es el inverso $\phi \sim \psi^{-1}: U \rightarrow O$ que mapea vectores a puntos de la variedad. 
+Sabemos que, para cada punto en $M$, existe una carta local $(O, \psi)$ tal que $O \subset M$ y $\psi: O \rightarrow U$ es un _mapa de codificación_ que proyecta el subconjunto $O$ en un espacio euclídeo. El mapa de decodificación $\phi$ actúa como un inverso aproximado de $\psi$, es decir, $\phi \approx \psi^{-1}$, y mapea las **representaciones latentes** en $U$ de nuevo a elementos del espacio ambiente $\mathcal{X}$.
+
+### Regresión
+
+
+
+
+
+
+
+
+
+
+Dada una una función de error $\mathcal{L}$, los autoencoders se entrenan para minimizar los errores de reconstrucción:
+
+$$
+\epsilon = \int_{\mathcal{X}} \mathcal{L}(\vec{x}, (\psi \circ \phi)(\vec{x})) d\mu(\vec{x})
+$$
 
 
 
@@ -84,3 +100,5 @@ Mikolov, T., Chen, K., Corrado, G., & Dean, J. (2013). _Efficient estimation of 
 Lei, N., Luo, Z., Yau, S.-T., & Gu, D. X. (2018). _Geometric understanding of deep learning_. arXiv preprint arXiv:1805.10451. [https://arxiv.org/abs/1805.10451](https://arxiv.org/abs/1805.10451)
 
 Su, J., Lu, Y., Pan, S. J., Wen, J., Liu, Y., & Sun, M. (2021). _RoFormer: Enhanced Transformer with Rotary Position Embedding_. arXiv. [https://arxiv.org/abs/2104.09864](https://arxiv.org/abs/2104.09864)
+
+

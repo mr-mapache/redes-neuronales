@@ -2,13 +2,18 @@ Habíamos visto que una dada una señal $\vec{s}$ una red neuronal podía aprend
 
 Supongamos ahora no una señal de activación sino una **secuencia** de longitud $l$ de señales $d$-dimensionales. 
 
-
 $$
 S = \begin{bmatrix} \vec{s}^1 \\ \vec{s}^2 \\ \vdots \\ \vec{s}^l \end{bmatrix} 
 $$
 
+$$
+\begin{bmatrix} \vec{q} & \cdots & \vec{q} \end{bmatrix} 
+\begin{bmatrix} \vec{k} & \cdots & \vec{k} \end{bmatrix}
+$$
 
-
+$$
+\text{Attention}(Q, K, V) = \text{Softmax}(\frac{QK^T}{\sqrt{d_k}})V
+$$
 
 
 
